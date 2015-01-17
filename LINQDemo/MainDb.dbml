@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="EbookCreation" Class="EbookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=EbookCreation;Persist Security Info=True;User ID=user" SettingsObjectName="LINQDemo.Properties.Settings" SettingsPropertyName="EbookCreationConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Projects" Member="ProjectDataModels">
+    <Type Name="ProjectDataModel">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="CreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="RootPath" Type="System.String" DbType="VarChar(1000) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="UserDataModel_ProjectDataModel" Member="UserDataModel" ThisKey="UserID" OtherKey="ID" Type="UserDataModel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="UserDataModels">
+    <Type Name="UserDataModel">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" IsDelayLoaded="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="UserDataModel_ProjectDataModel" Member="ProjectDataModels" ThisKey="ID" OtherKey="UserID" Type="ProjectDataModel" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tab1" Member="Tab1s">
+    <Type Name="Tab1">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Tab1_Tab3" Member="Tab3s" ThisKey="ID" OtherKey="Tab1Id" Type="Tab3" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tab2" Member="Tab2s">
+    <Type Name="Tab2">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Tab2_Tab3" Member="Tab3s" ThisKey="ID" OtherKey="Tab2Id" Type="Tab3" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tab3" Member="Tab3s">
+    <Type Name="Tab3">
+      <Column Name="Tab1Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tab2Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Tab1_Tab3" Member="Tab1" ThisKey="Tab1Id" OtherKey="ID" Type="Tab1" IsForeignKey="true" />
+      <Association Name="Tab2_Tab3" Member="Tab2" ThisKey="Tab2Id" OtherKey="ID" Type="Tab2" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.SearchProjects" Method="SearchProjects">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="filterProjectName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="filterUserName" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="filterAuthorName" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="filterBookName" Type="System.String" DbType="VarChar(500)" />
+    <Parameter Name="filterStatusName" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="filterFileName" Type="System.String" DbType="VarChar(100)" />
+    <ElementType Name="SearchProjectsResult">
+      <Column Name="IndexNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectCreationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectStatusName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="BookAuthor" Type="System.String" DbType="VarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="BookName" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="BookPages" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectFiles" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
